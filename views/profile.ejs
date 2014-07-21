@@ -1,0 +1,11 @@
+<% profileResults.forEach(function(profileResult, index) { 
+  %>
+
+    <div class="row" >
+        <div class="span4">
+            <p class="text-left"> <i class="icon-star"></i><b>课程名: <%= profileResult.coursename %></p>
+            <p class="text-left"><i class="icon-flag"></i><b>观看次数: <%= profileResult.times %></p>
+        </div>
+    </div><!-- end row -->
+      <hr>
+<%}) %>
