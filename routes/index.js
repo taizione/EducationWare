@@ -326,7 +326,7 @@ module.exports = function(app) {
   });
     app.get('/aboutUs', function(req, res) {
     
-      res.render('aboutUs', {
+      res.render('aboutUS', {
         title: '首页',
         layout:'infolayout',
       });
