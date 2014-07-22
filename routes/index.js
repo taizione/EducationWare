@@ -302,7 +302,7 @@ module.exports = function(app) {
       });
     });
   });
-
+  app.get('/profile', checkLogin);
     app.get('/profile', function(req, res) {
         var currentUser = req.session.user;
         Record.list(currentUser.name, function(err, profileResults) {
