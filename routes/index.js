@@ -4,6 +4,7 @@ var Post = require('../models/post.js');
 var Record = require('../models/record.js');
 var i18n=require('i18n');
 var path = require('path');
+var soap = require('soap');
 
 var locale;
 i18n.configure({
@@ -90,23 +91,44 @@ module.exports = function(app) {
   
   app.post('/login', checkNotLogin);
   app.post('/login', function(req, res) {
+    var url= "http://localhost:8080/axis2/services/BPLoginHandler?wsdl";
+    var args={  emailAddr: req.body.username,
+                password: req.body.password};
+
+    soap.createClient(url, function(err, client) {
+
+      console.log(client);
+      client.auth(args, function(err, result) {
+        console.log(result.return);
+        if(result.return==0)
+        {
+         req.session.user="aaa";
+             req.flash('success', '登录成功');
+           }
+
+           else{
+              req.flash('error', '用户名或密码错误');
+              return res.redirect('/login');
+           
+        }
     //生成口令的散列值
-    var md5 = crypto.createHash('md5');
-    var password = md5.update(req.body.password).digest('base64');
+    // var md5 = crypto.createHash('md5');
+    // var password = md5.update(req.body.password).digest('base64');
     
-    User.get(req.body.username, function(err, user) {
-      if (!user) {
-        req.flash('error', '用户不存在');
-        return res.redirect('/login');
-      }
-      if (user.password != password) {
-        req.flash('error', '用户密码错误');
-        return res.redirect('/login');
-      }
-      req.session.user = user;
-      req.flash('success', '登录成功');
+    // User.get(req.body.username, function(err, user) {
+    //   if (!user) {
+    //     req.flash('error', '用户不存在');
+    //     return res.redirect('/login');
+    //   }
+    //   if (user.password != password) {
+    //     req.flash('error', '用户密码错误');
+    //     return res.redirect('/login');
+    //   }
+    //   req.session.user = user;
+    //   req.flash('success', '登录成功');
       res.redirect('/educationhome');
     });
+  });
   });
 
   app.get('/educationHome', checkLogin);
@@ -355,7 +377,7 @@ module.exports = function(app) {
         });
       });
     });
-  });
+    });
   
   app.post('/postIdea', checkLogin);
   app.post('/postIdea', function(req, res) {
@@ -372,8 +394,8 @@ module.exports = function(app) {
       res.redirect('/say');
     });
   });
-};
 
+};
 
 function checkLogin(req, res, next) {
   if (!req.session.user) {
