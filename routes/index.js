@@ -5,15 +5,17 @@ var Record = require('../models/record.js');
 var i18n=require('i18n');
 var path = require('path');
 
-locale='zh';
+var locale;
 i18n.configure({
-  locales: ['en', 'zh'],
+  locales: ['en', 'zh','pl'],
   directory: path.normalize(__dirname + '/../locales')
 }); 
 
 module.exports = function(app) {
   app.get('/', function(req, res) {
-        i18n.init(req, res);
+    var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
+    i18n.init(req, res);
     req.setLocale(locale);
     Record.calculateTimes(function(err, records) {
       if (err) {
@@ -322,7 +324,7 @@ module.exports = function(app) {
       });
   });
         app.get('/versionRecord', function(req, res) {
-    
+    console.log(locale);
       res.render('versionRecord', {
         title: '首页',
         layout:'infolayout',

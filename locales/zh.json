@@ -1,3 +1,5 @@
 {
-	"login": "登陆",
+	"Login": "登录",
+	"Register": "注册",
+	"HomePage": "HomePage"
 }
