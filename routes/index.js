@@ -106,8 +106,13 @@ module.exports = function(app) {
              req.flash('success', '登录成功');
            }
 
-           else{
-              req.flash('error', '用户名或密码错误');
+           else if (result.return==6){
+              req.flash('error', '用户名不存在');
+              return res.redirect('/login');
+           
+        }
+              else if (result.return==9){
+              req.flash('error', '密码错误');
               return res.redirect('/login');
            
         }
