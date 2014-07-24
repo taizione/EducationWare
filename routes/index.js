@@ -2,24 +2,26 @@ var crypto = require('crypto');
 var User = require('../models/user.js');
 var Post = require('../models/post.js');
 var Record = require('../models/record.js');
-// var i18n=require('i18n');
-// var path = require('path');
+var i18n=require('i18n');
+var path = require('path');
 
-// locale='zh';
-// i18n.configure({
-//   locales: ['en', 'zh'],
-//   directory: path.normalize(__dirname + '/../locales')
-// }); 
+locale='zh';
+i18n.configure({
+  locales: ['en', 'zh'],
+  directory: path.normalize(__dirname + '/../locales')
+}); 
 
 module.exports = function(app) {
   app.get('/', function(req, res) {
+        i18n.init(req, res);
+    req.setLocale(locale);
     Record.calculateTimes(function(err, records) {
       if (err) {
         records = [];
       }
-      console.log("records_aabb"+records["gvt"]);
+      console.log(records);
       res.render('index', {
-        title: '首页',
+        title: res.__('HomePage'),
         records: records,
       });
     });
@@ -290,6 +292,8 @@ module.exports = function(app) {
 
   app.get('/say', checkLogin);
   app.get('/say', function(req, res) {
+            i18n.init(req, res);
+    req.setLocale(locale);
     Post.get(null, function(err, posts) {
       if (err) {
         posts = [];
