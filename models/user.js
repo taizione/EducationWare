@@ -36,6 +36,7 @@ User.prototype.save = function save(callback) {
 User.get = function get(username, callback) {
   mongodb.open(function(err, db) {
     if (err) {
+      mongodb.close();
       return callback(err);
     }
     // 讀取 users 集合
@@ -52,6 +53,7 @@ User.get = function get(username, callback) {
           var user = new User(doc);
           callback(err, user);
         } else {
+          
           callback(err, null);
         }
       });

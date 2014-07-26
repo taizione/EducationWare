@@ -2,5 +2,8 @@
 	"login": "login11",
 	"HomePage": "HomePage",
 	"Login": "Login",
-	"Register": "Register"
+	"Register": "Register" ,
+	"Logoff" :"Logoff",
+	"UserGuide":"UserGuide",
+	"Welcome":"Welcome"
 }

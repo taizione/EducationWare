@@ -29,60 +29,10 @@ module.exports = function(app) {
       });
     });
   });
-  
-  app.get('/reg', checkNotLogin);
-  app.get('/reg', function(req, res) {
-    res.render('reg', {
-      title: '用户注册',
-    });
-  });
-  
-  app.post('/reg', checkNotLogin);
-  app.post('/reg', function(req, res) {
-    //檢驗用戶兩次輸入的口令是否一致
-    if (req.body['password-repeat'] != req.body['password']) {
-      req.flash('error', '密码输入不一制');
-      return res.redirect('/reg');
-    }
-  
-    //生成口令的散列值
-    var md5 = crypto.createHash('md5');
-    var password = md5.update(req.body.password).digest('base64');
-    
-    var newUser = new User({
-      name: req.body.username,
-      password: password,
-    });
-    
-    //檢查用戶名是否已經存在
-    User.get(newUser.name, function(err, user) {
-      if (user)
-        err = 'Username already exists.';
-      if (err) {
-        req.flash('error', err);
-        return res.redirect('/reg');
-      }
-      //如果不存在則新增用戶
-      newUser.save(function(err) {
-        if (err) {
-          req.flash('error', err);
-          return res.redirect('/reg');
-        }
-        req.session.user = newUser;
-        req.flash('success', '注册成功');
-        res.redirect('/');
-      });
-    });
-  });
+
   
   app.get('/login', checkNotLogin);
   app.get('/login', function(req, res) {
-    // i18n.init(req, res);
-    // req.setLocale(locale); 
-    // console.log(i18n);
-    // console.log( path.normalize(__dirname + '/../locales'));
-    // console.log("locale"+ locale);
-    // console.log(res.__('username'));
     res.render('login', {
       title: '用户登录',
       
@@ -94,52 +44,48 @@ module.exports = function(app) {
     var url= "http://localhost:8080/axis2/services/BPLoginHandler?wsdl";
     var args={  emailAddr: req.body.username,
                 password: req.body.password};
-
     soap.createClient(url, function(err, client) {
+    console.log(client);
+    client.auth(args, function(err, result) {
+    console.log(result.return);
+      if(result.return==0||result.return==8)
+      {
+        //check whether user exist.
 
-      console.log(client);
-      client.auth(args, function(err, result) {
-        console.log(result.return);
-        if(result.return==0)
-        {
-         req.session.user="aaa";
-             req.flash('success', '登录成功');
-           }
+        var newUser=new User({
+          name :req.body.username,
+        });
 
-           else if (result.return==6){
-              req.flash('error', '用户名不存在');
-              return res.redirect('/login');
-           
+        User.get(newUser.name,function(err,user){
+          if(!user)
+          {
+            newUser.save(function(err){
+              if(err){
+                req.flash('error',err);
+              }
+            });
+          }
+        });
+
+      }
+      else if (result.return==6){
+        req.flash('error', '用户名不存在');
+        return res.redirect('/login');          
+      }
+      else if (result.return==9){
+        req.flash('error', '密码错误');
+        return res.redirect('/login');          
         }
-              else if (result.return==9){
-              req.flash('error', '密码错误');
-              return res.redirect('/login');
-           
-        }
-    //生成口令的散列值
-    // var md5 = crypto.createHash('md5');
-    // var password = md5.update(req.body.password).digest('base64');
-    
-    // User.get(req.body.username, function(err, user) {
-    //   if (!user) {
-    //     req.flash('error', '用户不存在');
-    //     return res.redirect('/login');
-    //   }
-    //   if (user.password != password) {
-    //     req.flash('error', '用户密码错误');
-    //     return res.redirect('/login');
-    //   }
-    //   req.session.user = user;
-    //   req.flash('success', '登录成功');
-      res.redirect('/educationhome');
+        req.session.user=args;
+        req.flash('success', '登录成功');
+        res.redirect('/educationhome');
+     
     });
-  });
+   });
   });
 
   app.get('/educationHome', checkLogin);
   app.get('/educationHome',function(req, res) {
-    
-
     Record.calculateTimes(function(err, records) {
       if (err) {
         records = [];
@@ -151,15 +97,13 @@ module.exports = function(app) {
         });
       });
   });
+
   app.get('/gvtEducation', checkLogin);
    app.get('/gvtEducation',function(req, res) {
-
     Record.calculateTimes(function(err, records) {
       if (err) {
         records = [];
       }
-
-
       res.render('gvtEducation', {
         title: 'GSSC Training Platform',
         coursetype:"gvtEducation",
@@ -167,17 +111,16 @@ module.exports = function(app) {
         videoicon:'GVT.jpg',
         layout: 'mainLayout',
         records: records,
-        });
       });
+    });
   });
+
   app.get('/tvtProcess', checkLogin);
       app.get('/tvtProcess',function(req, res) {
       Record.calculateTimes(function(err, records) {
       if (err) {
         records = [];
       }
-
-      
       res.render('tvtProcess', {
         title: 'GSSC Training Platform',
         coursetype:"tvtProcess",
@@ -188,22 +131,22 @@ module.exports = function(app) {
         });
       });  
   });
-  app.get('/uaTools', checkLogin);
-    app.get('/uaTools',function(req, res) {
-      Record.calculateTimes(function(err, records) {
-                if (err) {
-                  records = [];
-                }
 
-                res.render('uaTools', {
-                  title: 'GSSC Training Platform',
-                  coursetype:"uaTools",
-                  videosource: 'UA tool demo update.mp4',
-                  videoicon:'UATools.jpg',
-                  layout: 'mainLayout',
-                  records: records,
-                  });
-                });
+  app.get('/uaTools', checkLogin);
+  app.get('/uaTools',function(req, res) {
+  Record.calculateTimes(function(err, records) {
+    if (err) {
+               records = [];
+              }
+              res.render('uaTools', {
+              title: 'GSSC Training Platform',
+              coursetype:"uaTools",
+              videosource: 'UA tool demo update.mp4',
+              videoicon:'UATools.jpg',
+              layout: 'mainLayout',
+              records: records,
+            });
+      });
   });
 
   app.get('/tips_for_better_doing_tvt_go_nogo_accessment', checkLogin);
@@ -212,7 +155,6 @@ module.exports = function(app) {
                 if (err) {
                   records = [];
                 }
-
                 res.render('tips_for_better_doing_tvt_go_nogo_accessment', {
                   title: 'GSSC Training Platform',
                   coursetype:"tips_for_better_doing_tvt_go_nogo_accessment",
@@ -224,13 +166,12 @@ module.exports = function(app) {
                 });
   });
 
-      app.get('/gvt_ta_example_sharing', checkLogin);
+  app.get('/gvt_ta_example_sharing', checkLogin);
     app.get('/gvt_ta_example_sharing',function(req, res) {
       Record.calculateTimes(function(err, records) {
                 if (err) {
                   records = [];
                 }
-
                 res.render('gvt_ta_example_sharing', {
                   title: 'GSSC Training Platform',
                   coursetype:"gvt_ta_example_sharing",
@@ -241,7 +182,7 @@ module.exports = function(app) {
                   });
                 });
   });
-      app.get('/speed_kpi_definition_and_gso_project_data_collection', checkLogin);
+  app.get('/speed_kpi_definition_and_gso_project_data_collection', checkLogin);
     app.get('/speed_kpi_definition_and_gso_project_data_collection',function(req, res) {
       Record.calculateTimes(function(err, records) {
                 if (err) {
@@ -258,7 +199,7 @@ module.exports = function(app) {
                   });
                 });
   });
-      app.get('/defect_creation_tips', checkLogin);
+  app.get('/defect_creation_tips', checkLogin);
     app.get('/defect_creation_tips',function(req, res) {
       Record.calculateTimes(function(err, records) {
                 if (err) {
@@ -288,9 +229,10 @@ module.exports = function(app) {
 
   var coursename=req.query.coursename;
   var currentUser = req.session.user;
-    Record.get(currentUser.name,coursename,function(error,result){
+  console.log(coursename+ "abc"+currentUser.emailAddr);
+    Record.get(currentUser.emailAddr,coursename,function(error,result){
 
-      var record = new Record(currentUser.name, coursename);
+      var record = new Record(currentUser.emailAddr, coursename);
 
       if(!result)
         {
@@ -301,7 +243,7 @@ module.exports = function(app) {
                   return res.redirect('/');
                 }
                 req.flash('success', '记录成功');
-                res.redirect('/u/' + currentUser.name);
+                res.redirect('/u/' + currentUser.emailAddr);
               });
        }
        else{
@@ -313,7 +255,7 @@ module.exports = function(app) {
                 }
                 req.flash('success', '更新成功');
                 console.log("update success");
-                res.redirect('/u/' + currentUser.name);
+                res.redirect('/u/' + currentUser.emailAddr);
               });
        }
     })
@@ -338,7 +280,7 @@ module.exports = function(app) {
   app.get('/profile', checkLogin);
     app.get('/profile', function(req, res) {
         var currentUser = req.session.user;
-        Record.list(currentUser.name, function(err, profileResults) {
+        Record.list(currentUser.emailAddr, function(err, profileResults) {
           if (err) {
             profileResults = [];
           }
@@ -350,7 +292,7 @@ module.exports = function(app) {
           });
       });
   });
-        app.get('/versionRecord', function(req, res) {
+  app.get('/versionRecord', function(req, res) {
     console.log(locale);
       res.render('versionRecord', {
         title: '首页',
@@ -389,7 +331,7 @@ module.exports = function(app) {
 
 
     var currentUser = req.session.user;
-    var post = new Post(currentUser.name, req.body.ideaName,req.body.ideaDesc);
+    var post = new Post(currentUser.emailAddr, req.body.ideaName,req.body.ideaDesc);
     post.save(function(err) {
       if (err) {
         req.flash('error', err);
