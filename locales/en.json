@@ -3,7 +3,7 @@
 	"HomePage": "HomePage",
 	"Login": "Login",
 	"Register": "Register" ,
-	"Logoff" :"Logoff",
+	"Logout" :"Logout",
 	"UserGuide":"UserGuide",
 	"Welcome":"Welcome"
 }

@@ -48,6 +48,7 @@ Record.prototype.update = function upate(callback) {
   console.log("coursename"+this.coursename);
   mongodb.open(function(err, db) {
     if (err) {
+      mongodb.close();
       return callback(err);
     }
     // 讀取 record 集合
@@ -66,9 +67,10 @@ Record.prototype.update = function upate(callback) {
 };
 
 Record.get = function get(username,coursename, callback) {
-
+ mongodb.close();
   mongodb.open(function(err, db) {
     if (err) {
+      mongodb.close();
       return callback(err);
     }
     // 讀取 posts 集合
@@ -88,8 +90,10 @@ Record.get = function get(username,coursename, callback) {
         if (doc) {
           // 封裝文檔爲 User 對象
           var record = new Record(doc);
+        
           callback(err, record);
         } else {
+         
           callback(err, null);
         }
       });
@@ -99,8 +103,10 @@ Record.get = function get(username,coursename, callback) {
 
 
 Record.calculateTimes = function calculateTimes(callback) {
+  mongodb.close();
 mongodb.open(function(err, db) {
     if (err) {
+      mongodb.close();
       return callback(err);
     }
 
@@ -140,6 +146,7 @@ Record.list = function list(username,callback) {
 
   mongodb.open(function(err, db) {
     if (err) {
+      mongodb.close();
       return callback(err);
     }
     // 讀取 posts 集合
@@ -157,6 +164,7 @@ Record.list = function list(username,callback) {
       collection.find(query).sort({coursename: -1}).toArray(function(err, docs) {
         mongodb.close();
         if (err) {
+          mongodb.close();
           callback(err, null);
         }
         // 封裝 posts 爲 Post 對象
@@ -166,6 +174,7 @@ Record.list = function list(username,callback) {
           records.push(record);
           console.log("record"+record.username+record.coursename+record.times);
         });
+        mongodb.close();
         callback(null, records);
  
       });

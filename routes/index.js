@@ -33,6 +33,8 @@ module.exports = function(app) {
   
   app.get('/login', checkNotLogin);
   app.get('/login', function(req, res) {
+        i18n.init(req, res);
+    req.setLocale(locale);
     res.render('login', {
       title: '用户登录',
       
@@ -86,6 +88,8 @@ module.exports = function(app) {
 
   app.get('/educationHome', checkLogin);
   app.get('/educationHome',function(req, res) {
+            i18n.init(req, res);
+    req.setLocale(locale);
     Record.calculateTimes(function(err, records) {
       if (err) {
         records = [];
@@ -100,6 +104,8 @@ module.exports = function(app) {
 
   app.get('/gvtEducation', checkLogin);
    app.get('/gvtEducation',function(req, res) {
+            i18n.init(req, res);
+    req.setLocale(locale);
     Record.calculateTimes(function(err, records) {
       if (err) {
         records = [];
@@ -117,6 +123,8 @@ module.exports = function(app) {
 
   app.get('/tvtProcess', checkLogin);
       app.get('/tvtProcess',function(req, res) {
+                i18n.init(req, res);
+    req.setLocale(locale);
       Record.calculateTimes(function(err, records) {
       if (err) {
         records = [];
@@ -134,6 +142,8 @@ module.exports = function(app) {
 
   app.get('/uaTools', checkLogin);
   app.get('/uaTools',function(req, res) {
+            i18n.init(req, res);
+    req.setLocale(locale);
   Record.calculateTimes(function(err, records) {
     if (err) {
                records = [];
@@ -151,6 +161,8 @@ module.exports = function(app) {
 
   app.get('/tips_for_better_doing_tvt_go_nogo_accessment', checkLogin);
     app.get('/tips_for_better_doing_tvt_go_nogo_accessment',function(req, res) {
+              i18n.init(req, res);
+    req.setLocale(locale);
       Record.calculateTimes(function(err, records) {
                 if (err) {
                   records = [];
@@ -168,6 +180,8 @@ module.exports = function(app) {
 
   app.get('/gvt_ta_example_sharing', checkLogin);
     app.get('/gvt_ta_example_sharing',function(req, res) {
+              i18n.init(req, res);
+    req.setLocale(locale);
       Record.calculateTimes(function(err, records) {
                 if (err) {
                   records = [];
@@ -184,6 +198,8 @@ module.exports = function(app) {
   });
   app.get('/speed_kpi_definition_and_gso_project_data_collection', checkLogin);
     app.get('/speed_kpi_definition_and_gso_project_data_collection',function(req, res) {
+              i18n.init(req, res);
+    req.setLocale(locale);
       Record.calculateTimes(function(err, records) {
                 if (err) {
                   records = [];
@@ -201,6 +217,8 @@ module.exports = function(app) {
   });
   app.get('/defect_creation_tips', checkLogin);
     app.get('/defect_creation_tips',function(req, res) {
+              i18n.init(req, res);
+    req.setLocale(locale);
       Record.calculateTimes(function(err, records) {
                 if (err) {
                   records = [];
@@ -219,6 +237,8 @@ module.exports = function(app) {
 
   app.get('/logout', checkLogin);
   app.get('/logout', function(req, res) {
+            i18n.init(req, res);
+    req.setLocale(locale);
     req.session.user = null;
     req.flash('success', '登出成功');
     res.redirect('/');
@@ -226,6 +246,8 @@ module.exports = function(app) {
  
   
   app.get('/record',function(req, res){
+            i18n.init(req, res);
+    req.setLocale(locale);
 
   var coursename=req.query.coursename;
   var currentUser = req.session.user;
@@ -263,6 +285,7 @@ module.exports = function(app) {
 
   app.get('/say', checkLogin);
   app.get('/say', function(req, res) {
+
             i18n.init(req, res);
     req.setLocale(locale);
     Post.get(null, function(err, posts) {
@@ -279,6 +302,24 @@ module.exports = function(app) {
   });
   app.get('/profile', checkLogin);
     app.get('/profile', function(req, res) {
+              i18n.init(req, res);
+    req.setLocale(locale);
+
+  var url= "http://localhost:8080/axis2/services/BPLoginHandler?wsdl";
+      var args={  emailAddr: req.body.username};
+    soap.createClient(url, function(err, client) {
+    console.log(client);
+    client.getProfile(args, function(err, result) {
+    console.log(result.return);
+    var results=JSON.stringify(result.return).split(",");
+
+
+    console.log(results);
+    console.log(results[0]);
+
+  });
+    });
+
         var currentUser = req.session.user;
         Record.list(currentUser.emailAddr, function(err, profileResults) {
           if (err) {
@@ -293,6 +334,8 @@ module.exports = function(app) {
       });
   });
   app.get('/versionRecord', function(req, res) {
+            i18n.init(req, res);
+    req.setLocale(locale);
     console.log(locale);
       res.render('versionRecord', {
         title: '首页',
@@ -300,7 +343,8 @@ module.exports = function(app) {
       });
   });
     app.get('/aboutUs', function(req, res) {
-    
+                i18n.init(req, res);
+    req.setLocale(locale);
       res.render('aboutUS', {
         title: '首页',
         layout:'infolayout',
@@ -308,6 +352,8 @@ module.exports = function(app) {
   });
   
   app.get('/u/:user', function(req, res) {
+            i18n.init(req, res);
+    req.setLocale(locale);
     User.get(req.params.user, function(err, user) {
       if (!user) {
         req.flash('error', '用户不存在');
@@ -328,6 +374,8 @@ module.exports = function(app) {
   
   app.post('/postIdea', checkLogin);
   app.post('/postIdea', function(req, res) {
+            i18n.init(req, res);
+    req.setLocale(locale);
 
 
     var currentUser = req.session.user;
