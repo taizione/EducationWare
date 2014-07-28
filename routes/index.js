@@ -50,7 +50,7 @@ module.exports = function(app) {
     console.log(client);
     client.auth(args, function(err, result) {
     console.log(result.return);
-      if(result.return==0||result.return==8)
+      if(result.return==0)
       {
         //check whether user exist.
 
@@ -76,6 +76,10 @@ module.exports = function(app) {
       }
       else if (result.return==9){
         req.flash('error', '密码错误');
+        return res.redirect('/login');          
+        }
+              else {
+        req.flash('error', 'BP验证服务器连接错误');
         return res.redirect('/login');          
         }
         req.session.user=args;
@@ -115,6 +119,7 @@ module.exports = function(app) {
         coursetype:"gvtEducation",
         videosource: 'GVT_Education.mp4',
         videoicon:'GVT.jpg',
+        filetype:'video',
         layout: 'mainLayout',
         records: records,
       });
@@ -134,6 +139,7 @@ module.exports = function(app) {
         coursetype:"tvtProcess",
         videosource: 'TVT Process.mp4',
         videoicon:'tvtProcess.jpg',
+         filetype:'video',
         layout: 'mainLayout',
         records: records,
         });
@@ -153,6 +159,7 @@ module.exports = function(app) {
               coursetype:"uaTools",
               videosource: 'UA tool demo update.mp4',
               videoicon:'UATools.jpg',
+               filetype:'video',
               layout: 'mainLayout',
               records: records,
             });
@@ -172,6 +179,7 @@ module.exports = function(app) {
                   coursetype:"tips_for_better_doing_tvt_go_nogo_accessment",
                   videosource: '0627_TVT_GO-NOGO_Assessment_Education.flv',
                   videoicon:'0627_TVT_GO-NOGO_Assessment_Education.jpg',
+                   filetype:'video',
                   layout: 'mainLayout',
                   records: records,
                   });
@@ -191,6 +199,7 @@ module.exports = function(app) {
                   coursetype:"gvt_ta_example_sharing",
                   videosource: '0627_GVT_TestArea_Example_Sharing.flv',
                   videoicon:'0627_GVT_TestArea_Example_Sharing.jpg',
+                   filetype:'video',
                   layout: 'mainLayout',
                   records: records,
                   });
@@ -210,6 +219,7 @@ module.exports = function(app) {
                   coursetype:"speed_kpi_definition_and_gso_project_data_collection",
                   videosource: '2014_KPI_Speed_definition_and_GSO_Project_Data_Collection.flv',
                   videoicon:'2014_KPI_Speed_definition_and_GSO_Project_Data_Collection.jpg',
+                   filetype:'video',
                   layout: 'mainLayout',
                   records: records,
                   });
@@ -229,11 +239,76 @@ module.exports = function(app) {
                   coursetype:"defect_creation_tips",
                   videosource: 'GSSC_Defect_Creation_Tips.flv',
                   videoicon:'GSSC_Defect_Creation_Tips.jpg',
+                   filetype:'video',
                   layout: 'mainLayout',
                   records: records,
                   });
                 });
   });
+
+  app.get('/demo_testcase_creation_tool ', checkLogin);
+    app.get('/demo_testcase_creation_tool',function(req, res) {
+              i18n.init(req, res);
+    req.setLocale(locale);
+      Record.calculateTimes(function(err, records) {
+                if (err) {
+                  records = [];
+                }
+                res.render('demo_testcase_creation_tool', {
+                  title: 'GSSC Training Platform',
+                  coursetype:"demo_testcase_creation_tool",
+                  videosource: 'Demo_TestCaseCreationTool.flv',
+                  videoicon:'Demo_TestCaseCreationTool.jpg',
+                   filetype:'video',
+                  layout: 'mainLayout',
+                  records: records,
+                  });
+                });
+  });
+
+      app.get('/dbs_enhancements', checkLogin);
+    app.get('/dbs_enhancements',function(req, res) {
+              i18n.init(req, res);
+    req.setLocale(locale);
+      Record.calculateTimes(function(err, records) {
+                if (err) {
+                  records = [];
+                }
+
+                res.render('dbs_enhancements', {
+                  title: 'GSSC Training Platform',
+                  coursetype:"dbs_enhancements",
+                  videosource: '0725_2014_1H_DBs_Enhancements.mp3',
+                  videoicon:'0725_2014_1H_DBs_Enhancements.jpg',
+                   filetype:'audio',
+                  layout: 'mainLayout',
+                  records: records,
+                  });
+                });
+  });
+
+      app.get('/gvt_in_cd_Process', checkLogin);
+    app.get('/gvt_in_cd_Process',function(req, res) {
+              i18n.init(req, res);
+    req.setLocale(locale);
+      Record.calculateTimes(function(err, records) {
+                if (err) {
+                  records = [];
+                }
+
+                res.render('gvt_in_cd_Process', {
+                  title: 'GSSC Training Platform',
+                  coursetype:"gvt_in_cd_Process",
+                  videosource: '0725_GVT_in_CD_Process.mp3',
+                  videoicon:'0725_GVT_in_CD_Process.jpg',
+                   filetype:'audio',
+                  layout: 'mainLayout',
+                  records: records,
+                  });
+                });
+  });
+
+
 
   app.get('/logout', checkLogin);
   app.get('/logout', function(req, res) {
@@ -306,19 +381,45 @@ module.exports = function(app) {
     req.setLocale(locale);
 
   var url= "http://localhost:8080/axis2/services/BPLoginHandler?wsdl";
-      var args={  emailAddr: req.body.username};
+      var args={  emailAddr: req.session.user.emailAddr};
     soap.createClient(url, function(err, client) {
     console.log(client);
     client.getProfile(args, function(err, result) {
     console.log(result.return);
-    var results=JSON.stringify(result.return).split(",");
+     var results=result.return.split(",");
+      var info={  MGR: results[1],
+                  NOTEID:results[3],
+                  JOBRESPONSIB:results[5],
+                  COUNTRY:results[7],
+                  NAME:results[9]+""+results[10],
+                  XPHONE:results[12],
+                  CNUM:results[14].substring(0,6)};
 
-
-    console.log(results);
-    console.log(results[0]);
+    var currentUser = req.session.user;
+        Record.list(currentUser.emailAddr, function(err, profileResults) {
+          if (err) {
+            profileResults = [];
+          }
+          console.log("profileResults"+profileResults);
+          res.render('profile', {
+            title: '首页',
+            profileResults:profileResults,
+            info:info,
+            layout:'infolayout',
+          });
+      });
 
   });
     });
+
+  
+  });
+  app.get('/studyRecord', checkLogin);
+    app.get('/studyRecord', function(req, res) {
+              i18n.init(req, res);
+    req.setLocale(locale);
+
+  
 
         var currentUser = req.session.user;
         Record.list(currentUser.emailAddr, function(err, profileResults) {
@@ -333,6 +434,10 @@ module.exports = function(app) {
           });
       });
   });
+
+
+
+
   app.get('/versionRecord', function(req, res) {
             i18n.init(req, res);
     req.setLocale(locale);

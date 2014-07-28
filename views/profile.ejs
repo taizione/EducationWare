@@ -1,7 +1,38 @@
 
-<b> <font color="blue"><h1>成长足迹  </h1></font></b>
+<div class="row marketing">
 
- <hr>
+<b><font color="blue"><h1>个人信息 </h1></font></b>
+        <div class="col-lg-6">
+          <label for="ideaTitle"><b>姓名</b></label>
+          <p><%= info.NAME %></p>
+
+          <label for="ideaTitle"><b>国家</b></label>
+          <p><%= info.COUNTRY %></p>
+
+          <label for="ideaTitle"><b>员工号</b></label>
+          <p><%= info.CNUM %></p>
+                    <label for="ideaTitle"><b>职位</b></label>
+          <p><%= info.JOBRESPONSIB %></p>
+        </div>
+
+        <div class="col-lg-6">
+         <label for="ideaTitle"><b>是否是经理</b></label>
+          <p><%= info.MGR %></p>
+
+         <label for="ideaTitle"><b>座机</b></label>
+          <p><%= info.XPHONE %></p>
+
+         <label for="ideaTitle"><b>NOTESID</b></label>
+          <p><%= info.NOTEID %></p>
+        </div>
+        
+      </div>
+       <hr>
+<div class="row marketing">
+<b><font color="blue"><h1>您观看过的课程 </h1></font></b>
+      <div class="col-lg-6">
+
+
 <% profileResults.forEach(function(profileResult, index) { 
   %>
 
@@ -13,3 +44,5 @@
     </div><!-- end row -->
       <hr>
 <%}) %>
+</div>
+</div>

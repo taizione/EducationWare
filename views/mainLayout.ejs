@@ -27,6 +27,7 @@
 
         //Triggers when the playback ends
         function onComplete(data){
+
             alert("Completed this couse now");
 
             var xmlhttp;   
@@ -88,7 +89,7 @@
                 <param name="quality" value="high">
                 <param name="scale" value="noscale">
                 <param name="wmode" value="opaque">
-                <param name="flashvars" value="source=/videos/<%= videosource %>&type=video&duration=52&streamtype=file&poster=/img/<%= videoicon %>&autostart=false&logo=/images/logo.png&logoposition=top left&logoalpha=30&logowidth=130&logolink=http://jaris.sourceforge.net&hardwarescaling=false&controls=true&jsapi=1">
+                <param name="flashvars" value="source=/videos/<%= videosource %>&type=<%= filetype %>&duration=52&streamtype=file&poster=/img/<%= videoicon %>&autostart=false&logo=/images/logo.png&logoposition=top left&logoalpha=30&logowidth=130&logolink=http://jaris.sourceforge.net&hardwarescaling=false&controls=true&jsapi=1">
                 <param name="seamlesstabbing" value="false">
               </object>
             </left>

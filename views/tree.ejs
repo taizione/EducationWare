@@ -22,6 +22,32 @@
             <ul>
                 <li>
                     <span><i class="icon-calendar"></i> Monthly Session</span>
+                      <ul>
+                        <li>
+                          <span class="label label-success"><i class="icon-minus-sign"></i> 07/25 14:00 - 16:00 </span>
+                              <ul>
+                                <li>
+                                <% if(records["gvt_in_cd_Process"]==undefined) records["gvt_in_cd_Process"]=0 %>
+                                  <a href="/gvt_in_cd_Process"><span class="label label-warning"><i class="label label-warning"></i> GVT in CD process<font color="red">(<%= records["gvt_in_cd_Process"]%>)</font></a>
+                                </li>
+                            </ul>
+
+                            <ul>
+                                <li>
+                                <% if(records["dbs_enhancements"]==undefined) records["dbs_enhancements"]=0 %>
+                                  <a href="/dbs_enhancements"><span class="label label-warning"><i class="label label-warning"></i> 2014 1H DBs enhancements<font color="red">(<%= records["dbs_enhancements"]%>)</font></a>
+                                </li>
+                            </ul>
+                             <ul>
+                                <li>
+                                <% if(records["demo_testcase_creation_tool"]==undefined) records["demo_testcase_creation_tool"]=0 %>
+                                  <a href="/demo_testcase_creation_tool"><span class="label label-warning"><i class="label label-warning"></i>Demo_TestCaseCreationTool<font color="red">(<%= records["demo_testcase_creation_tool"]%>)</font></a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+
                     <ul>
                         <li>
                           <span class="label label-success"><i class="icon-minus-sign"></i> 06/27 14:00 - 16:00 </span>
