@@ -15,6 +15,7 @@ i18n.configure({
 module.exports = function(app) {
   app.get('/', function(req, res) {
     var locales=req.headers['accept-language'].split(",");
+    console.log("locales"+locales);
     locale=locales[0];
     i18n.init(req, res);
     req.setLocale(locale);
@@ -47,25 +48,35 @@ module.exports = function(app) {
     var args={  emailAddr: req.body.username,
                 password: req.body.password};
     soap.createClient(url, function(err, client) {
-    console.log(client);
+    // console.log(client);
     client.auth(args, function(err, result) {
     console.log(result.return);
       if(result.return==0)
       {
         //check whether user exist.
-
-        var newUser=new User({
-          name :req.body.username,
-        });
-
-        User.get(newUser.name,function(err,user){
+        var username=req.body.username;
+        var newUser=new User(username);
+        console.log("newUser:"+newUser);
+        User.get(username,function(err,user){
+        console.log(user);
           if(!user)
           {
+            console.log("save");
             newUser.save(function(err){
               if(err){
                 req.flash('error',err);
               }
             });
+          }
+          else
+          {
+ 
+            console.log("update");
+            newUser.update(function(err) {
+                if (err) {
+                  req.flash('error', err);
+                  }
+              });
           }
         });
 

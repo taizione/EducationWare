@@ -39,7 +39,7 @@ Record.prototype.save = function save(callback) {
   });
 };
 
-Record.prototype.update = function upate(callback) {
+Record.prototype.update = function update(callback) {
   // 存入 Mongodb 的文檔
   var record = {
     user: this.user,
@@ -143,7 +143,7 @@ mongodb.open(function(err, db) {
 };
 
 Record.list = function list(username,callback) {
-
+mongodb.close();
   mongodb.open(function(err, db) {
     if (err) {
       mongodb.close();
