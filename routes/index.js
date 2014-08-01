@@ -8,7 +8,7 @@ var soap = require('soap');
 
 var locale;
 i18n.configure({
-  locales: ['en', 'zh','pl'],
+  locales: ['en', 'zh-cn','zh-tw'],
   directory: path.normalize(__dirname + '/../locales')
 }); 
 
@@ -25,7 +25,7 @@ module.exports = function(app) {
       }
       console.log(records);
       res.render('index', {
-        title: res.__('HomePage'),
+        title: res.__('EW0001'),
         records: records,
       });
     });
@@ -37,13 +37,15 @@ module.exports = function(app) {
         i18n.init(req, res);
     req.setLocale(locale);
     res.render('login', {
-      title: '用户登录',
+      title: res.__('EW0002'),
       
     });
   }); 
   
   app.post('/login', checkNotLogin);
   app.post('/login', function(req, res) {
+            i18n.init(req, res);
+    req.setLocale(locale);
     var url= "http://localhost:8080/axis2/services/BPLoginHandler?wsdl";
     var args={  emailAddr: req.body.username,
                 password: req.body.password};
@@ -82,19 +84,19 @@ module.exports = function(app) {
 
       }
       else if (result.return==6){
-        req.flash('error', '用户名不存在');
+        req.flash('error', res.__('EW0036'));
         return res.redirect('/login');          
       }
       else if (result.return==9){
-        req.flash('error', '密码错误');
+        req.flash('error', res.__('EW0037'));
         return res.redirect('/login');          
         }
               else {
-        req.flash('error', 'BP验证服务器连接错误');
+        req.flash('error', res.__('EW0038'));
         return res.redirect('/login');          
         }
         req.session.user=args;
-        req.flash('success', '登录成功');
+        req.flash('success', res.__('EW0039'));
         res.redirect('/educationhome');
      
     });
@@ -103,7 +105,7 @@ module.exports = function(app) {
 
   app.get('/educationHome', checkLogin);
   app.get('/educationHome',function(req, res) {
-            i18n.init(req, res);
+     i18n.init(req, res);
     req.setLocale(locale);
     Record.calculateTimes(function(err, records) {
       if (err) {
@@ -111,7 +113,7 @@ module.exports = function(app) {
       }
 
       res.render('educationhome', {
-        title: 'GSSC Training Platform',
+        title: res.__('EW0041'),
         records: records,
         });
       });
@@ -126,7 +128,7 @@ module.exports = function(app) {
         records = [];
       }
       res.render('gvtEducation', {
-        title: 'GSSC Training Platform',
+        title:  res.__('EW0041'),
         coursetype:"gvtEducation",
         videosource: 'GVT_Education.mp4',
         videoicon:'GVT.jpg',
@@ -146,7 +148,7 @@ module.exports = function(app) {
         records = [];
       }
       res.render('tvtProcess', {
-        title: 'GSSC Training Platform',
+        title:  res.__('EW0041'),
         coursetype:"tvtProcess",
         videosource: 'TVT Process.mp4',
         videoicon:'tvtProcess.jpg',
@@ -166,7 +168,7 @@ module.exports = function(app) {
                records = [];
               }
               res.render('uaTools', {
-              title: 'GSSC Training Platform',
+              title:  res.__('EW0041'),
               coursetype:"uaTools",
               videosource: 'UA tool demo update.mp4',
               videoicon:'UATools.jpg',
@@ -186,7 +188,7 @@ module.exports = function(app) {
                   records = [];
                 }
                 res.render('tips_for_better_doing_tvt_go_nogo_accessment', {
-                  title: 'GSSC Training Platform',
+                  title:  res.__('EW0041'),
                   coursetype:"tips_for_better_doing_tvt_go_nogo_accessment",
                   videosource: '0627_TVT_GO-NOGO_Assessment_Education.flv',
                   videoicon:'0627_TVT_GO-NOGO_Assessment_Education.jpg',
@@ -206,7 +208,7 @@ module.exports = function(app) {
                   records = [];
                 }
                 res.render('gvt_ta_example_sharing', {
-                  title: 'GSSC Training Platform',
+                  title:  res.__('EW0041'),
                   coursetype:"gvt_ta_example_sharing",
                   videosource: '0627_GVT_TestArea_Example_Sharing.flv',
                   videoicon:'0627_GVT_TestArea_Example_Sharing.jpg',
@@ -226,7 +228,7 @@ module.exports = function(app) {
                 }
 
                 res.render('speed_kpi_definition_and_gso_project_data_collection', {
-                  title: 'GSSC Training Platform',
+                  title:  res.__('EW0041'),
                   coursetype:"speed_kpi_definition_and_gso_project_data_collection",
                   videosource: '2014_KPI_Speed_definition_and_GSO_Project_Data_Collection.flv',
                   videoicon:'2014_KPI_Speed_definition_and_GSO_Project_Data_Collection.jpg',
@@ -246,7 +248,7 @@ module.exports = function(app) {
                 }
 
                 res.render('defect_creation_tips', {
-                  title: 'GSSC Training Platform',
+                  title:  res.__('EW0041'),
                   coursetype:"defect_creation_tips",
                   videosource: 'GSSC_Defect_Creation_Tips.flv',
                   videoicon:'GSSC_Defect_Creation_Tips.jpg',
@@ -266,7 +268,7 @@ module.exports = function(app) {
                   records = [];
                 }
                 res.render('demo_testcase_creation_tool', {
-                  title: 'GSSC Training Platform',
+                  title:  res.__('EW0041'),
                   coursetype:"demo_testcase_creation_tool",
                   videosource: 'Demo_TestCaseCreationTool.flv',
                   videoicon:'Demo_TestCaseCreationTool.jpg',
@@ -287,7 +289,7 @@ module.exports = function(app) {
                 }
 
                 res.render('dbs_enhancements', {
-                  title: 'GSSC Training Platform',
+                  title:  res.__('EW0041'),
                   coursetype:"dbs_enhancements",
                   videosource: '0725_2014_1H_DBs_Enhancements.mp3',
                   videoicon:'0725_2014_1H_DBs_Enhancements.jpg',
@@ -308,7 +310,7 @@ module.exports = function(app) {
                 }
 
                 res.render('gvt_in_cd_Process', {
-                  title: 'GSSC Training Platform',
+                  title:  res.__('EW0041'),
                   coursetype:"gvt_in_cd_Process",
                   videosource: '0725_GVT_in_CD_Process.mp3',
                   videoicon:'0725_GVT_in_CD_Process.jpg',
@@ -326,7 +328,7 @@ module.exports = function(app) {
             i18n.init(req, res);
     req.setLocale(locale);
     req.session.user = null;
-    req.flash('success', '登出成功');
+    req.flash('success',  res.__('EW0040'));
     res.redirect('/');
   });
  
@@ -350,7 +352,7 @@ module.exports = function(app) {
                   req.flash('error', err);
                   return res.redirect('/');
                 }
-                req.flash('success', '记录成功');
+                // req.flash('success', '记录成功');
                 res.redirect('/u/' + currentUser.emailAddr);
               });
        }
@@ -361,7 +363,7 @@ module.exports = function(app) {
                   req.flash('error', err);
                   return res.redirect('/');
                 }
-                req.flash('success', '更新成功');
+                // req.flash('success', '更新成功');
                 console.log("update success");
                 res.redirect('/u/' + currentUser.emailAddr);
               });
@@ -380,7 +382,7 @@ module.exports = function(app) {
       }
       console.log("posts"+posts);
       res.render('say', {
-        title: '首页',
+        title:  res.__('EW0001'),
         posts: posts,
         layout: 'infolayout',
       });
@@ -413,7 +415,7 @@ module.exports = function(app) {
           }
           console.log("profileResults"+profileResults);
           res.render('profile', {
-            title: '首页',
+            title: res.__('EW0001'),
             profileResults:profileResults,
             info:info,
             layout:'infolayout',
@@ -439,7 +441,7 @@ module.exports = function(app) {
           }
           console.log("profileResults"+profileResults);
           res.render('profile', {
-            title: '首页',
+            title: res.__('EW0001'),
             profileResults:profileResults,
             layout:'infolayout',
           });
@@ -454,7 +456,7 @@ module.exports = function(app) {
     req.setLocale(locale);
     console.log(locale);
       res.render('versionRecord', {
-        title: '首页',
+        title: res.__('EW0001'),
         layout:'infolayout',
       });
   });
@@ -462,31 +464,31 @@ module.exports = function(app) {
                 i18n.init(req, res);
     req.setLocale(locale);
       res.render('aboutUS', {
-        title: '首页',
+        title: res.__('EW0001'),
         layout:'infolayout',
       });
   });
   
-  app.get('/u/:user', function(req, res) {
-            i18n.init(req, res);
-    req.setLocale(locale);
-    User.get(req.params.user, function(err, user) {
-      if (!user) {
-        req.flash('error', '用户不存在');
-        return res.redirect('/');
-      }
-      Post.get(user.name, function(err, posts) {
-        if (err) {
-          req.flash('error', err);
-          return res.redirect('/');
-        }
-        res.render('user', {
-          title: user.name,
-          posts: posts,
-        });
-      });
-    });
-    });
+  // app.get('/u/:user', function(req, res) {
+  //           i18n.init(req, res);
+  //   req.setLocale(locale);
+  //   User.get(req.params.user, function(err, user) {
+  //     if (!user) {
+  //       req.flash('error', '用户不存在');
+  //       return res.redirect('/');
+  //     }
+  //     Post.get(user.name, function(err, posts) {
+  //       if (err) {
+  //         req.flash('error', err);
+  //         return res.redirect('/');
+  //       }
+  //       res.render('user', {
+  //         title: user.name,
+  //         posts: posts,
+  //       });
+  //     });
+  //   });
+  //   });
   
   app.post('/postIdea', checkLogin);
   app.post('/postIdea', function(req, res) {
@@ -501,7 +503,7 @@ module.exports = function(app) {
         req.flash('error', err);
         return res.redirect('/');
       }
-      req.flash('success', '发表成功');
+      req.flash('success', res.__('EW0042'));
       res.redirect('/say');
     });
   });
@@ -509,16 +511,20 @@ module.exports = function(app) {
 };
 
 function checkLogin(req, res, next) {
+          i18n.init(req, res);
+    req.setLocale(locale);
   if (!req.session.user) {
-    req.flash('error', '未登录');
+    req.flash('error', res.__('EW0043'));
     return res.redirect('/login');
   }
   next();
 }
 
 function checkNotLogin(req, res, next) {
+          i18n.init(req, res);
+    req.setLocale(locale);
   if (req.session.user) {
-    req.flash('error', '已登录');
+    req.flash('error', res.__('EW0039'));
     return res.redirect('/');
   }
   next();

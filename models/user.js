@@ -28,7 +28,7 @@ User.prototype.save = function save(callback) {
       }
       // 爲 name 屬性添加索引
   console.log("save 3");
-      collection.ensureIndex('username', {unique: true});
+      // collection.ensureIndex('username', {unique: true});
       // 寫入 user 文檔
       collection.insert(user, {safe: false}, function(err, user) {
         callback(err, user);

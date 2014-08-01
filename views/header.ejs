@@ -3,15 +3,15 @@
 
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left">
-               <a class="navbar-brand" href="/versionRecord"><i class="icon-eye-open"></i><%= __('UserGuide')%></a>  
+               <a class="navbar-brand" href="/versionRecord"><i class="icon-eye-open"></i><%= __('EW0005')%></a>  
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li class="active"><a href="/"><%= __('HomePage')%></a></li>
+              <li class="active"><a href="/"><%= __('EW0001')%></a></li>
                 <% if (!user) { %>
-                  <li><a href="/login"><%= __('Login')%></a></li>
+                  <li><a href="/login"><%= __('EW0002')%></a></li>
                 <% } else { %>
-                  <li><a href="/logout"><%= __('Logout')%></a></li>
-                   <li><a href="/profile"><%= __('Welcome')%>_<%=user.emailAddr%></a></li>
+                  <li><a href="/logout"><%= __('EW0004')%></a></li>
+                   <li><a href="/profile"><%= __('EW0035')%>_<%=user.emailAddr%></a></li>
                 <% } %>
             </ul>
 <!--             <form class="navbar-form navbar-right">
