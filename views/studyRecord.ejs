@@ -1,5 +1,5 @@
 
-<b> <font color="blue"><h1>成长足迹  </h1></font></b>
+<b> <font color="blue"><h1><%= __('GrowingFootPrint')%></h1></font></b>
 
  <hr>
 <% profileResults.forEach(function(profileResult, index) { 
@@ -7,8 +7,8 @@
 
     <div class="row" >
         <div class="span4">
-            <p class="text-left"> <i class="icon-star"></i><b>课程名: <%= profileResult.coursename %></p>
-            <p class="text-left"><i class="icon-flag"></i><b>观看次数: <%= profileResult.times %></p>
+            <p class="text-left"> <i class="icon-star"></i><b><%= __('CourseName')%><%= profileResult.coursename %></p>
+            <p class="text-left"><i class="icon-flag"></i><b><%= __('WatchTime')%><%= profileResult.times %></p>
         </div>
     </div><!-- end row -->
       <hr>

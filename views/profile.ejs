@@ -1,35 +1,35 @@
 
 <div class="row marketing">
 
-<b><font color="blue"><h1>个人信息 </h1></font></b>
+<b><font color="blue"><h1><%= __('UserProfile')%></h1></font></b>
         <div class="col-lg-6">
-          <label for="ideaTitle"><b>姓名</b></label>
+          <label for="ideaTitle"><b><%= __('Name')%></b></label>
           <p><%= info.NAME %></p>
 
-          <label for="ideaTitle"><b>国家</b></label>
+          <label for="ideaTitle"><b><%= __('Country')%></b></label>
           <p><%= info.COUNTRY %></p>
 
-          <label for="ideaTitle"><b>员工号</b></label>
+          <label for="ideaTitle"><b><%= __('SerialNO')%></b></label>
           <p><%= info.CNUM %></p>
-                    <label for="ideaTitle"><b>职位</b></label>
+                    <label for="ideaTitle"><b><%= __('Title')%></b></label>
           <p><%= info.JOBRESPONSIB %></p>
         </div>
 
         <div class="col-lg-6">
-         <label for="ideaTitle"><b>是否是经理</b></label>
+         <label for="ideaTitle"><b><%= __('IsManager')%></b></label>
           <p><%= info.MGR %></p>
 
-         <label for="ideaTitle"><b>座机</b></label>
+         <label for="ideaTitle"><b><%= __('Tel')%></b></label>
           <p><%= info.XPHONE %></p>
 
-         <label for="ideaTitle"><b>NOTESID</b></label>
+         <label for="ideaTitle"><b><%= __('NotesID')%></b></label>
           <p><%= info.NOTEID %></p>
         </div>
         
       </div>
        <hr>
 <div class="row marketing">
-<b><font color="blue"><h1>您观看过的课程 </h1></font></b>
+<b><font color="blue"><h1><%= __('CoursesYouHaveWatched')%></h1></font></b>
       <div class="col-lg-6">
 
 
@@ -38,8 +38,8 @@
 
     <div class="row" >
         <div class="span4">
-            <p class="text-left"> <i class="icon-star"></i><b>课程名: <%= profileResult.coursename %></p>
-            <p class="text-left"><i class="icon-flag"></i><b>观看次数: <%= profileResult.times %></p>
+            <p class="text-left"> <i class="icon-star"></i><b><%= __('CourseName')%><%= profileResult.coursename %></p>
+            <p class="text-left"><i class="icon-flag"></i><b><%= __('WatchTime')%><%= profileResult.times %></p>
         </div>
     </div><!-- end row -->
       <hr>

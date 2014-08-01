@@ -3,10 +3,10 @@
   <hr>
     <div class="row" >
       <div class="span4">
-        <span class="label label-warning"><i class="icon-user"></i><small><%= post.user %></a> 发表于<%= post.time %></small></span>
+        <span class="label label-warning"><i class="icon-user"></i><small><%= post.user %></a><%= __('Post')%><%= post.time %></small></span>
         <br><br>
-        <p class="text-left"> <i class="icon-star"></i><b>标题: </b><%= post.title %></p>
-        <p class="text-left"><i class="icon-flag"></i><b>描述: </b>
+        <p class="text-left"> <i class="icon-star"></i><b><%= __('Subject')%></b><%= post.title %></p>
+        <p class="text-left"><i class="icon-flag"></i><b><%= __('Description')%></b>
       	<%= post.desc %></p>
       </div>
     </div><!-- end row -->
