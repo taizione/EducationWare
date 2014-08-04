@@ -1,8 +1,7 @@
 var mongodb = require('./db');
 
-function User(username,times) {
-  this.username = username;
-  this.times =times;
+function User(user) {
+  this.username = user.name;
 };
 module.exports = User;
 
@@ -14,10 +13,10 @@ User.prototype.save = function save(callback) {
   };
 
   console.log("save 1");
+  mongodb.close();
   mongodb.open(function(err, db) {
   console.log("save 2");
     if (err) {
-      mongodb.close();
       return callback(err);
     }
     // 讀取 users 集合
@@ -28,7 +27,7 @@ User.prototype.save = function save(callback) {
       }
       // 爲 name 屬性添加索引
   console.log("save 3");
-      // collection.ensureIndex('username', {unique: true});
+      collection.ensureIndex('username', {unique: true});
       // 寫入 user 文檔
       collection.insert(user, {safe: false}, function(err, user) {
         callback(err, user);
@@ -42,9 +41,11 @@ User.prototype.update = function update(callback) {
     username: this.username,
   };
   console.log("update 1");
+    mongodb.close();
   mongodb.open(function(err, db) {
     if (err) {
       mongodb.close();
+             console.log("err"+err);
       return callback(err);
     }
     console.log("update 2");
@@ -68,12 +69,14 @@ User.get = function get(username, callback) {
       console.log("get2");
     if (err) {
       mongodb.close();
+       console.log("err"+err);
       return callback(err);
     }
     // 讀取 users 集合
     db.collection('users', function(err, collection) {
       if (err) {
         mongodb.close();
+        console.log("err"+err);
         return callback(err);
       }
       // 查找 name 屬性爲 username 的文檔
@@ -82,7 +85,7 @@ User.get = function get(username, callback) {
         mongodb.close();
         if (doc) {
           // 封裝文檔爲 User 對象
-  console.log("get4");
+  console.log("get4"+doc.username);
           var user = new User(doc);
           callback(err, user);
         } else {       

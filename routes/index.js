@@ -61,10 +61,10 @@ module.exports = function(app) {
       {
         //check whether user exist.
         var username=req.body.username;
-        var newUser=new User(username);
-        console.log("newUser:"+newUser);
+        console.log(username);
+        var newUser=new User({name:req.body.username,});
+        console.log("newUser:"+newUser.username);
         User.get(username,function(err,user){
-        console.log(user);
           if(!user)
           {
             console.log("save");
