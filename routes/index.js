@@ -8,15 +8,15 @@ var soap = require('soap');
 
 var locale;
 i18n.configure({
-  locales: ['en', 'zh-cn','zh-tw'],
+  locales: ['en', 'zh-tw', 'zh-cn'],
   directory: path.normalize(__dirname + '/../locales')
 }); 
 
 module.exports = function(app) {
   app.get('/', function(req, res) {
     var locales=req.headers['accept-language'].split(",");
-    console.log("locales"+locales);
     locale=locales[0];
+    console.log("locale:"+locale);
     i18n.init(req, res);
     req.setLocale(locale);
     Record.calculateTimes(function(err, records) {
@@ -34,6 +34,8 @@ module.exports = function(app) {
   
   app.get('/login', checkNotLogin);
   app.get('/login', function(req, res) {
+        var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
         i18n.init(req, res);
     req.setLocale(locale);
     res.render('login', {
@@ -44,6 +46,8 @@ module.exports = function(app) {
   
   app.post('/login', checkNotLogin);
   app.post('/login', function(req, res) {
+        var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
             i18n.init(req, res);
     req.setLocale(locale);
     var url= "http://localhost:8080/axis2/services/BPLoginHandler?wsdl";
@@ -105,6 +109,8 @@ module.exports = function(app) {
 
   app.get('/educationHome', checkLogin);
   app.get('/educationHome',function(req, res) {
+        var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
      i18n.init(req, res);
     req.setLocale(locale);
     Record.calculateTimes(function(err, records) {
@@ -121,6 +127,8 @@ module.exports = function(app) {
 
   app.get('/gvtEducation', checkLogin);
    app.get('/gvtEducation',function(req, res) {
+        var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
             i18n.init(req, res);
     req.setLocale(locale);
     Record.calculateTimes(function(err, records) {
@@ -141,6 +149,8 @@ module.exports = function(app) {
 
   app.get('/tvtProcess', checkLogin);
       app.get('/tvtProcess',function(req, res) {
+            var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
                 i18n.init(req, res);
     req.setLocale(locale);
       Record.calculateTimes(function(err, records) {
@@ -161,6 +171,8 @@ module.exports = function(app) {
 
   app.get('/uaTools', checkLogin);
   app.get('/uaTools',function(req, res) {
+        var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
             i18n.init(req, res);
     req.setLocale(locale);
   Record.calculateTimes(function(err, records) {
@@ -181,6 +193,8 @@ module.exports = function(app) {
 
   app.get('/tips_for_better_doing_tvt_go_nogo_accessment', checkLogin);
     app.get('/tips_for_better_doing_tvt_go_nogo_accessment',function(req, res) {
+          var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
               i18n.init(req, res);
     req.setLocale(locale);
       Record.calculateTimes(function(err, records) {
@@ -201,6 +215,8 @@ module.exports = function(app) {
 
   app.get('/gvt_ta_example_sharing', checkLogin);
     app.get('/gvt_ta_example_sharing',function(req, res) {
+          var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
               i18n.init(req, res);
     req.setLocale(locale);
       Record.calculateTimes(function(err, records) {
@@ -220,6 +236,8 @@ module.exports = function(app) {
   });
   app.get('/speed_kpi_definition_and_gso_project_data_collection', checkLogin);
     app.get('/speed_kpi_definition_and_gso_project_data_collection',function(req, res) {
+          var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
               i18n.init(req, res);
     req.setLocale(locale);
       Record.calculateTimes(function(err, records) {
@@ -240,6 +258,8 @@ module.exports = function(app) {
   });
   app.get('/defect_creation_tips', checkLogin);
     app.get('/defect_creation_tips',function(req, res) {
+          var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
               i18n.init(req, res);
     req.setLocale(locale);
       Record.calculateTimes(function(err, records) {
@@ -261,6 +281,8 @@ module.exports = function(app) {
 
   app.get('/demo_testcase_creation_tool ', checkLogin);
     app.get('/demo_testcase_creation_tool',function(req, res) {
+          var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
               i18n.init(req, res);
     req.setLocale(locale);
       Record.calculateTimes(function(err, records) {
@@ -281,6 +303,8 @@ module.exports = function(app) {
 
       app.get('/dbs_enhancements', checkLogin);
     app.get('/dbs_enhancements',function(req, res) {
+          var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
               i18n.init(req, res);
     req.setLocale(locale);
       Record.calculateTimes(function(err, records) {
@@ -302,6 +326,8 @@ module.exports = function(app) {
 
       app.get('/gvt_in_cd_Process', checkLogin);
     app.get('/gvt_in_cd_Process',function(req, res) {
+          var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
               i18n.init(req, res);
     req.setLocale(locale);
       Record.calculateTimes(function(err, records) {
@@ -325,6 +351,8 @@ module.exports = function(app) {
 
   app.get('/logout', checkLogin);
   app.get('/logout', function(req, res) {
+        var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
             i18n.init(req, res);
     req.setLocale(locale);
     req.session.user = null;
@@ -334,6 +362,8 @@ module.exports = function(app) {
  
   
   app.get('/record',function(req, res){
+        var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
             i18n.init(req, res);
     req.setLocale(locale);
 
@@ -373,6 +403,8 @@ module.exports = function(app) {
 
   app.get('/say', checkLogin);
   app.get('/say', function(req, res) {
+        var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
 
             i18n.init(req, res);
     req.setLocale(locale);
@@ -390,6 +422,8 @@ module.exports = function(app) {
   });
   app.get('/profile', checkLogin);
     app.get('/profile', function(req, res) {
+          var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
               i18n.init(req, res);
     req.setLocale(locale);
 
@@ -429,6 +463,8 @@ module.exports = function(app) {
   });
   app.get('/studyRecord', checkLogin);
     app.get('/studyRecord', function(req, res) {
+          var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
               i18n.init(req, res);
     req.setLocale(locale);
 
@@ -452,6 +488,8 @@ module.exports = function(app) {
 
 
   app.get('/versionRecord', function(req, res) {
+        var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
             i18n.init(req, res);
     req.setLocale(locale);
     console.log(locale);
@@ -461,6 +499,8 @@ module.exports = function(app) {
       });
   });
     app.get('/aboutUs', function(req, res) {
+          var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
                 i18n.init(req, res);
     req.setLocale(locale);
       res.render('aboutUS', {
@@ -492,6 +532,8 @@ module.exports = function(app) {
   
   app.post('/postIdea', checkLogin);
   app.post('/postIdea', function(req, res) {
+        var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
             i18n.init(req, res);
     req.setLocale(locale);
 
@@ -511,6 +553,8 @@ module.exports = function(app) {
 };
 
 function checkLogin(req, res, next) {
+      var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
           i18n.init(req, res);
     req.setLocale(locale);
   if (!req.session.user) {
@@ -521,6 +565,8 @@ function checkLogin(req, res, next) {
 }
 
 function checkNotLogin(req, res, next) {
+      var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
           i18n.init(req, res);
     req.setLocale(locale);
   if (req.session.user) {
