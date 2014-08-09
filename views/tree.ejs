@@ -24,6 +24,26 @@
                     <span><i class="icon-calendar"></i> Monthly Session</span>
                       <ul>
                         <li>
+                          <span class="label label-success"><i class="icon-minus-sign"></i> 08/08 13:00 - 15:00 </span>
+                              <ul>
+                                <li>
+                                <% if(records["gb18030"]==undefined) records["gb18030"]=0 %>
+                                  <a href="/gb18030"><span class="label label-warning"><i class="label label-warning"></i> GB18030<font color="red">(<%= records["gb18030"]%>)</font></a>
+                                </li>
+                            </ul>
+
+                            <ul>
+                                <li>
+                                <% if(records["how_to_write_wellconveived_technical_documentation"]==undefined) records["how_to_write_wellconveived_technical_documentation"]=0 %>
+                                  <a href="/how_to_write_wellconveived_technical_documentation"><span class="label label-warning"><i class="label label-warning"></i> How to Write Well-conveived Technical Documentation<font color="red">(<%= records["how_to_write_wellconveived_technical_documentation"]%>)</font></a>
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+
+                      <ul>
+                        <li>
                           <span class="label label-success"><i class="icon-minus-sign"></i> 07/25 14:00 - 16:00 </span>
                               <ul>
                                 <li>

@@ -347,6 +347,52 @@ module.exports = function(app) {
                 });
   });
 
+          app.get('/gb18030', checkLogin);
+    app.get('/gb18030',function(req, res) {
+          var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
+              i18n.init(req, res);
+    req.setLocale(locale);
+      Record.calculateTimes(function(err, records) {
+                if (err) {
+                  records = [];
+                }
+
+                res.render('gb18030', {
+                  title:  res.__('EW0041'),
+                  coursetype:"gb18030",
+                  videosource: 'gb18030.mp3',
+                  videoicon:'gb18030.jpg',
+                   filetype:'audio',
+                  layout: 'mainLayout',
+                  records: records,
+                  });
+                });
+  });
+
+          app.get('/how_to_write_wellconveived_technical_documentation', checkLogin);
+    app.get('/how_to_write_wellconveived_technical_documentation',function(req, res) {
+          var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
+              i18n.init(req, res);
+    req.setLocale(locale);
+      Record.calculateTimes(function(err, records) {
+                if (err) {
+                  records = [];
+                }
+
+                res.render('how_to_write_wellconveived_technical_documentation', {
+                  title:  res.__('EW0041'),
+                  coursetype:"how_to_write_wellconveived_technical_documentation",
+                  videosource: 'how_to_write_wellconveived_technical_documentation.mp3',
+                  videoicon:'how_to_write_wellconveived_technical_documentation.jpg',
+                   filetype:'audio',
+                  layout: 'mainLayout',
+                  records: records,
+                  });
+                });
+  });
+
 
 
   app.get('/logout', checkLogin);
