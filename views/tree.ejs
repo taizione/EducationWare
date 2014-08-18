@@ -24,6 +24,25 @@
                     <span><i class="icon-calendar"></i> Monthly Session</span>
                       <ul>
                         <li>
+                          <span class="label label-success"><i class="icon-minus-sign"></i> 08/15 14:00 - 16:00 </span>
+                              <ul>
+                                <li>
+                                <% if(records["translation_qality_process"]==undefined) records["translation_qality_process"]=0 %>
+                                  <a href="/translation_qality_process"><span class="label label-warning"><i class="label label-warning"></i> Translation Quality Process<font color="red">(<%= records["translation_qality_process"]%>)</font></a>
+                                </li>
+                            </ul>
+
+                            <ul>
+                                <li>
+                                <% if(records["sniff_gvt_for_bluemix"]==undefined) records["sniff_gvt_for_bluemix"]=0 %>
+                                  <a href="/sniff_gvt_for_bluemix"><span class="label label-warning"><i class="label label-warning"></i> Sniff GVT for Bluemix<font color="red">(<%= records["sniff_gvt_for_bluemix"]%>)</font></a>
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                      <ul>
+                        <li>
                           <span class="label label-success"><i class="icon-minus-sign"></i> 08/08 13:00 - 15:00 </span>
                               <ul>
                                 <li>

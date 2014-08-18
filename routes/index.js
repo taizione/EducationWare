@@ -393,6 +393,52 @@ module.exports = function(app) {
                 });
   });
 
+              app.get('/translation_qality_process', checkLogin);
+    app.get('/translation_qality_process',function(req, res) {
+          var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
+              i18n.init(req, res);
+    req.setLocale(locale);
+      Record.calculateTimes(function(err, records) {
+                if (err) {
+                  records = [];
+                }
+
+                res.render('translation_qality_process', {
+                  title:  res.__('EW0041'),
+                  coursetype:"translation_qality_process",
+                  videosource: 'translation_qality_process.flv',
+                  videoicon:'translation_qality_process.jpg',
+                   filetype:'video',
+                  layout: 'mainLayout',
+                  records: records,
+                  });
+                });
+  });
+
+              app.get('/sniff_gvt_for_bluemix', checkLogin);
+    app.get('/sniff_gvt_for_bluemix',function(req, res) {
+          var locales=req.headers['accept-language'].split(",");
+    locale=locales[0];
+              i18n.init(req, res);
+    req.setLocale(locale);
+      Record.calculateTimes(function(err, records) {
+                if (err) {
+                  records = [];
+                }
+
+                res.render('sniff_gvt_for_bluemix', {
+                  title:  res.__('EW0041'),
+                  coursetype:"sniff_gvt_for_bluemix",
+                  videosource: 'sniff_gvt_for_bluemix.flv',
+                  videoicon:'sniff_gvt_for_bluemix.jpg',
+                   filetype:'video',
+                  layout: 'mainLayout',
+                  records: records,
+                  });
+                });
+  });
+
 
 
   app.get('/logout', checkLogin);
