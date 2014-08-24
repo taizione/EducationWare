@@ -103,7 +103,7 @@ Record.get = function get(username,coursename, callback) {
 
 
 Record.calculateTimes = function calculateTimes(callback) {
-  mongodb.close();
+mongodb.close();
 mongodb.open(function(err, db) {
     if (err) {
       mongodb.close();
@@ -133,7 +133,7 @@ mongodb.open(function(err, db) {
         docs.forEach(function(doc, index) {
           results[doc._id]=doc.total;
         });
-          mongodb.close();
+
          callback(null, results);
     });
       // 查找 user 屬性爲 username 的文檔，如果 username 是 null 則匹配全部

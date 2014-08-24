@@ -62,29 +62,41 @@ module.exports = function(app) {
         //check whether user exist.
         var username=req.body.username;
         console.log(username);
-        var newUser=new User({name:req.body.username,});
+        var newUser=new User({name:req.body.username,times:1});
         console.log("newUser:"+newUser.username);
+    
+        // var usertemp;
         User.get(username,function(err,user){
+          // usertemp=user;});
+        // console.log(usertemp);
           if(!user)
           {
-            console.log("save");
-            newUser.save(function(err){
+         newUser.save(function(err){
               if(err){
                 req.flash('error',err);
               }
             });
+
+                 req.session.user=args;
+        req.flash('success', res.__('EW0039'));
+        res.redirect('/educationhome');
           }
           else
           {
- 
             console.log("update");
             newUser.update(function(err) {
                 if (err) {
                   req.flash('error', err);
                   }
               });
+            req.session.user=args;
+        req.flash('success', res.__('EW0039'));
+        res.redirect('/educationhome');
           }
-        });
+
+   
+          
+         });
 
       }
       else if (result.return==6){
@@ -99,9 +111,7 @@ module.exports = function(app) {
         req.flash('error', res.__('EW0038'));
         return res.redirect('/login');          
         }
-        req.session.user=args;
-        req.flash('success', res.__('EW0039'));
-        res.redirect('/educationhome');
+
      
     });
    });
