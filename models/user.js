@@ -14,7 +14,7 @@ User.prototype.save = function save(callback) {
   };
 
    console.log("save 1");
-
+ mongodb.close();
   mongodb.open(function(err, db) {
   console.log("save 2");
     if (err) {
