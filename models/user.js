@@ -5,7 +5,7 @@ function User(user) {
   this.times=user.times;
 };
 module.exports = User;
-
+mongodb.close();
 User.prototype.save = function save(callback) {
   // 存入 Mongodb 的文檔
   var user = {
@@ -14,7 +14,7 @@ User.prototype.save = function save(callback) {
   };
 
    console.log("save 1");
-       mongodb.close();
+
   mongodb.open(function(err, db) {
   console.log("save 2");
     if (err) {
@@ -32,7 +32,7 @@ User.prototype.save = function save(callback) {
       collection.ensureIndex('username', {unique: true});
       // 寫入 user 文檔
       collection.insert(user, {safe: true}, function(err, user) {
-      
+       mongodb.close();
        return callback(err, user);
       });
     });
@@ -44,7 +44,7 @@ User.prototype.update = function update(callback) {
     username: this.username,
   };
   console.log("update 1");
-
+mongodb.close();
   mongodb.open(function(err, db) {
     if (err) {
       mongodb.close();

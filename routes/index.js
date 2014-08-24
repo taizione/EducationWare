@@ -75,11 +75,12 @@ module.exports = function(app) {
               if(err){
                 req.flash('error',err);
               }
-            });
+           
 
                  req.session.user=args;
         req.flash('success', res.__('EW0039'));
         res.redirect('/educationhome');
+         });
           }
           else
           {
@@ -88,10 +89,11 @@ module.exports = function(app) {
                 if (err) {
                   req.flash('error', err);
                   }
-              });
+            
             req.session.user=args;
         req.flash('success', res.__('EW0039'));
         res.redirect('/educationhome');
+          });
           }
 
    
