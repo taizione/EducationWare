@@ -75,8 +75,13 @@ module.exports = function(app) {
               if(err){
                 req.flash('error',err);
               }
-                req.session.user=args;
+              user={username:username,
+                    times:1};
+
+           
+                req.session.user=user;
                  req.session.times=1;
+            
         req.flash('success', res.__('EW0039'));
         res.redirect('/educationhome');
          });
