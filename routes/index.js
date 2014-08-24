@@ -62,7 +62,7 @@ module.exports = function(app) {
         //check whether user exist.
         var username=req.body.username;
         console.log(username);
-        var newUser=new User({name:req.body.username,times:1});
+        var newUser=new User({username:req.body.username,times:1});
         console.log("newUser:"+newUser.username);
     
         // var usertemp;
