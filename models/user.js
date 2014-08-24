@@ -1,7 +1,7 @@
 var mongodb = require('./db');
 
 function User(user) {
-  this.username = user.name;
+  this.username = user.username;
   this.times=user.times;
 };
 module.exports = User;
@@ -88,6 +88,7 @@ mongodb.close();
       collection.findOne({username: username}, function(err, doc) {
 
         if (doc) {
+          console.log(doc);
           var user = new User(doc);
     
          return callback(err, user);

@@ -75,9 +75,8 @@ module.exports = function(app) {
               if(err){
                 req.flash('error',err);
               }
-           
-
-                 req.session.user=args;
+                req.session.user=args;
+                 req.session.times=1;
         req.flash('success', res.__('EW0039'));
         res.redirect('/educationhome');
          });
@@ -89,8 +88,10 @@ module.exports = function(app) {
                 if (err) {
                   req.flash('error', err);
                   }
-            
-            req.session.user=args;
+            console.log(user);
+            req.session.user=user;
+            console.log(user.times+user.username);
+
         req.flash('success', res.__('EW0039'));
         res.redirect('/educationhome');
           });
