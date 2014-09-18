@@ -538,10 +538,11 @@ module.exports = function(app) {
     req.setLocale(locale);
 
   var url= "http://localhost:8080/axis2/services/BPLoginHandler?wsdl";
-      var args={  emailAddr: req.session.user.emailAddr};
+      var args={  emailAddr: req.session.user.username};
     soap.createClient(url, function(err, client) {
     console.log(client);
     client.getProfile(args, function(err, result) {
+    
     console.log(result.return);
      var results=result.return.split(",");
       var info={  MGR: results[1],
