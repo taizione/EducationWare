@@ -553,8 +553,8 @@ module.exports = function(app) {
                   XPHONE:results[12],
                   CNUM:results[14].substring(0,6)};
 
-    var currentUser = req.session.user;
-        Record.list(currentUser.emailAddr, function(err, profileResults) {
+    var currentUser = req.session.user; 
+        Record.list(currentUser.username, function(err, profileResults) {
           if (err) {
             profileResults = [];
           }
